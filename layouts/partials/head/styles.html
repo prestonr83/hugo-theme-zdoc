@@ -1,14 +1,38 @@
-{{ $main_options := (dict "targetPath" "css/main.css" "outputStyle" "compressed") }}
-{{ $main_template := resources.Get "sass/main.scss" }}
-{{ $main_style := $main_template | resources.ExecuteAsTemplate "main_parsed.scss" . | toCSS $main_options | resources.Minify }}
-<link rel="stylesheet" href="{{ $main_style.RelPermalink }}">
-
-{{ if .Site.Params.custom_css }}
-{{ range .Site.Params.custom_css }}
-  {{ $custom_template := resources.Get . }}
-  {{ if $custom_template }}
-    {{ $custom_style := $custom_template | resources.ToCSS | resources.Minify }}
-    <link rel="stylesheet" href="{{ $custom_style.RelPermalink }}">
-  {{ end }}
-{{ end }}
-{{ end }}
+{{ $main_options := (dict "targetPath" "css/main.css" "outputStyle" "compressed") }} {{ $main_template := resources.Get "sass/main.scss" }} {{ $main_style := $main_template | resources.ExecuteAsTemplate "main_parsed.scss" . | toCSS $main_options | resources.Minify
+}}
+<link rel="stylesheet" href="{{ $main_style.RelPermalink }}"> {{ if .Site.Params.custom_css }} {{ range .Site.Params.custom_css }} {{ $custom_template := resources.Get . }} {{ if $custom_template }} {{ $custom_style := $custom_template | resources.ToCSS | resources.Minify }}
+<link rel="stylesheet" href="{{ $custom_style.RelPermalink }}"> {{ end }} {{ end }} {{ end }}
+<style>
+    .copy-code-button {
+        color: #ffffff;
+        background-color: #2A2C37;
+        border-color: #757575;
+        border: 2px solid;
+        border-radius: 3px 3px 0px 0px;
+        /* right-align */
+        margin-left: auto;
+        margin-right: 0;
+        margin-bottom: -2px;
+        padding: 3px 8px;
+        font-size: 0.8em;
+    }
+    
+    .copy-code-button:hover {
+        cursor: pointer;
+        background-color: #ffffff;
+        color: #2A2C37;
+    }
+    
+    .copy-code-button:focus {
+        /* Avoid an ugly focus outline on click in Chrome,
+       but darken the button for accessibility.
+       See https://stackoverflow.com/a/25298082/1481479 */
+        background-color: #2A2C37;
+        outline: 0;
+    }
+    
+    .highlight pre {
+        /* Avoid pushing up the copy buttons. */
+        margin: 0;
+    }
+</style>
